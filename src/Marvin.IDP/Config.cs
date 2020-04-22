@@ -15,7 +15,11 @@ namespace Marvin.IDP
             { 
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Address()
+                new IdentityResources.Address(),
+                new IdentityResource(
+                    "roles", //scope name
+                    "Your roles(s)", //display name
+                    new List<string>() { "role" }) //list of claims that must be returned when an application asks for this roles scope.
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -41,7 +45,8 @@ namespace Marvin.IDP
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    IdentityServerConstants.StandardScopes.Address
+                    IdentityServerConstants.StandardScopes.Address,
+                    "roles"
                 },
                 ClientSecrets =
                 {

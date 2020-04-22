@@ -23,7 +23,8 @@ namespace Marvin.IDP
                     new Claim(JwtClaimTypes.Name, "Frank Underwood"),
                     new Claim(JwtClaimTypes.GivenName, "Frank"),
                     new Claim(JwtClaimTypes.FamilyName, "Underwood"),                    
-                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                    new Claim(JwtClaimTypes.Address, "Main Road 1"),
+                    new Claim(JwtClaimTypes.Role, "FreeUser")
                 }
             },
             new TestUser
@@ -36,7 +37,8 @@ namespace Marvin.IDP
                     new Claim(JwtClaimTypes.Name, "Claire Underwood"),
                     new Claim(JwtClaimTypes.GivenName, "Claire"),
                     new Claim(JwtClaimTypes.FamilyName, "Underwood"),
-                    new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                    new Claim(JwtClaimTypes.Address, "Big Street 2"),
+                    new Claim(JwtClaimTypes.Role, "PayingUser")
                 }
             }
         };
