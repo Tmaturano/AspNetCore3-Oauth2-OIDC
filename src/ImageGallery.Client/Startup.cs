@@ -50,6 +50,7 @@ namespace ImageGallery.Client
                 options.Scope.Add("profile");
                 options.SaveTokens = true; // Allow the middleware to save the token it receives from the identity provider so we can use them afterwards
                 options.ClientSecret = "secret"; //Same secret defined in the IDP level
+                options.GetClaimsFromUserInfoEndpoint = true;
             });
         }
 
