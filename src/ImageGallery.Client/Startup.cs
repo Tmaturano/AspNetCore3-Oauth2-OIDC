@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,10 +47,12 @@ namespace ImageGallery.Client
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = "https://localhost:44318/"; //IDP URI
                 options.ClientId = "imagegalleryclient";
-                options.ResponseType = "code";
-                //options.UsePkce = false;
-                options.Scope.Add("openid");
-                options.Scope.Add("profile");
+                options.ResponseType = "code";   
+                options.Scope.Add("address");
+                options.ClaimActions.DeleteClaim("sid"); //remove the claim from the ClaimsIdentity (in order to reduce the token cookie size) since we do not use it
+                options.ClaimActions.DeleteClaim("idp"); 
+                options.ClaimActions.DeleteClaim("s_hash"); 
+                options.ClaimActions.DeleteClaim("auth_time"); 
                 options.SaveTokens = true; // Allow the middleware to save the token it receives from the identity provider so we can use them afterwards
                 options.ClientSecret = "secret"; //Same secret defined in the IDP level
                 options.GetClaimsFromUserInfoEndpoint = true;
