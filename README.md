@@ -1,5 +1,5 @@
 # AspNetCore3-Oauth2-OIDC
-This project demonstrate an Authentication/Authorization flow using Identity Server 4.
+This project demonstrate an Authentication/Authorization flow using Identity Server 4 and AspNet Core 3.1 and it's a result of the Pluralsight course (Securing ASP.NET Core 3 with OAuth2 and OpenID Connect, by Kevin Dockx)
 
 * dotnet new -i IdentityServer4.Templates  //To install IS4 the templates for the project
 * dotnet new is4empty -n CompanyName.IDP   //To add an empty IS4 project
