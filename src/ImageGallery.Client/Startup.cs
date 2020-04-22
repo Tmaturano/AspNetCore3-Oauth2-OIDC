@@ -45,7 +45,6 @@ namespace ImageGallery.Client
                 options.Authority = "https://localhost:44318/"; //IDP URI
                 options.ClientId = "imagegalleryclient";
                 options.ResponseType = "code";
-                options.UsePkce = false;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.SaveTokens = true; // Allow the middleware to save the token it receives from the identity provider so we can use them afterwards
