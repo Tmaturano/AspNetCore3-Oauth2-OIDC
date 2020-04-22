@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,6 +68,11 @@ namespace ImageGallery.Client
                 options.SaveTokens = true; // Allow the middleware to save the token it receives from the identity provider so we can use them afterwards
                 options.ClientSecret = "secret"; //Same secret defined in the IDP level
                 options.GetClaimsFromUserInfoEndpoint = true;
+                options.TokenValidationParameters = new TokenValidationParameters  //Allow to specify the name claim and role claim types.
+                {
+                    NameClaimType = JwtClaimTypes.GivenName,
+                    RoleClaimType = JwtClaimTypes.Role
+                };
             });
         }
 
