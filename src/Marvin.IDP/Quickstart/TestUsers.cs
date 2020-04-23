@@ -24,7 +24,9 @@ namespace Marvin.IDP
                     new Claim(JwtClaimTypes.GivenName, "Frank"),
                     new Claim(JwtClaimTypes.FamilyName, "Underwood"),                    
                     new Claim(JwtClaimTypes.Address, "Main Road 1"),
-                    new Claim(JwtClaimTypes.Role, "FreeUser")
+                    new Claim(JwtClaimTypes.Role, "FreeUser"),
+                    new Claim("subscriptionlevel", "FreeUser"),
+                    new Claim("country", "nl")
                 }
             },
             new TestUser
@@ -38,7 +40,9 @@ namespace Marvin.IDP
                     new Claim(JwtClaimTypes.GivenName, "Claire"),
                     new Claim(JwtClaimTypes.FamilyName, "Underwood"),
                     new Claim(JwtClaimTypes.Address, "Big Street 2"),
-                    new Claim(JwtClaimTypes.Role, "PayingUser")
+                    new Claim(JwtClaimTypes.Role, "PayingUser"),
+                    new Claim("subscriptionlevel", "PayingUser"),
+                    new Claim("country", "be")
                 }
             }
         };

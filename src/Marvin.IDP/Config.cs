@@ -19,7 +19,15 @@ namespace Marvin.IDP
                 new IdentityResource(
                     "roles", //scope name
                     "Your roles(s)", //display name
-                    new List<string>() { "role" }) //list of claims that must be returned when an application asks for this roles scope.
+                    new List<string>() { "role" }), //list of claims that must be returned when an application asks for this roles scope.
+                new IdentityResource(
+                    "country", //scope name
+                    "The country you're living in", //display name
+                    new List<string>() { "country" }),
+                new IdentityResource(
+                    "subscriptionlevel", //scope name
+                    "Your subscription level", //display name
+                    new List<string>() { "subscriptionlevel" }),
             };
 
         public static IEnumerable<ApiResource> Apis =>
@@ -54,7 +62,9 @@ namespace Marvin.IDP
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
-                        "imagegalleryapi" // clients can request the API
+                        "imagegalleryapi", // clients can request the API
+                        "country",
+                        "subscriptionlevel"
                     },
                     ClientSecrets =
                     {

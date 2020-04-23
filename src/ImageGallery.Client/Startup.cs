@@ -31,6 +31,18 @@ namespace ImageGallery.Client
             services.AddControllersWithViews()
                  .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
 
+            services.AddAuthorization(authorizationOptions =>
+            {
+                authorizationOptions.AddPolicy(
+                    "CanOrderFrame",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireAuthenticatedUser();
+                        policyBuilder.RequireClaim("country", "be");
+                        policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
+                    });
+            });
+
             services.AddHttpContextAccessor(); //registering the dependencies that the handler relies on (HttpContext accessor)
             services.AddTransient<BearerTokenHandler>(); //it's by definition a very short-lived service, so transiente as lifetime is the way to go
 
@@ -68,11 +80,15 @@ namespace ImageGallery.Client
                 options.Scope.Add("address");
                 options.Scope.Add("roles");
                 options.Scope.Add("imagegalleryapi"); // ask for an access token with this scope included
+                options.Scope.Add("subscriptionlevel"); //will be returned from the UserInfo Endpoint
+                options.Scope.Add("country"); //will be returned from the UserInfo Endpoint
                 options.ClaimActions.DeleteClaim("sid"); //remove the claim from the ClaimsIdentity (in order to reduce the token cookie size) since we do not use it
                 options.ClaimActions.DeleteClaim("idp"); 
                 options.ClaimActions.DeleteClaim("s_hash"); 
                 options.ClaimActions.DeleteClaim("auth_time");
                 options.ClaimActions.MapUniqueJsonKey("role", "role"); //role is not mapped my the middleware by default, so we need to map it in order to see
+                options.ClaimActions.MapUniqueJsonKey("subscriptionlevel", "subscriptionlevel");
+                options.ClaimActions.MapUniqueJsonKey("country", "country");
                 options.SaveTokens = true; // Allow the middleware to save the token it receives from the identity provider so we can use them afterwards
                 options.ClientSecret = "secret"; //Same secret defined in the IDP level
                 options.GetClaimsFromUserInfoEndpoint = true;
