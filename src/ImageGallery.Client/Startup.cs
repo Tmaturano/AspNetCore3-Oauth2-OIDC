@@ -1,4 +1,5 @@
 ﻿using IdentityModel;
+using ImageGallery.Client.HttpHandlers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -30,13 +31,16 @@ namespace ImageGallery.Client
             services.AddControllersWithViews()
                  .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
 
+            services.AddHttpContextAccessor(); //registering the dependencies that the handler relies on (HttpContext accessor)
+            services.AddTransient<BearerTokenHandler>(); //it's by definition a very short-lived service, so transiente as lifetime is the way to go
+
             // create an HttpClient used for accessing the API
             services.AddHttpClient("APIClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44366/");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-            });
+            }).AddHttpMessageHandler<BearerTokenHandler>(); //ensure the api client use this handler
 
             // create an HttpClient used for accessing the IDP
             services.AddHttpClient("IDPClient", client =>
