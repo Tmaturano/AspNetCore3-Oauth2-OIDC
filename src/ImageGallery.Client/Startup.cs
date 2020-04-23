@@ -63,6 +63,7 @@ namespace ImageGallery.Client
                 options.ResponseType = "code";   
                 options.Scope.Add("address");
                 options.Scope.Add("roles");
+                options.Scope.Add("imagegalleryapi"); // ask for an access token with this scope included
                 options.ClaimActions.DeleteClaim("sid"); //remove the claim from the ClaimsIdentity (in order to reduce the token cookie size) since we do not use it
                 options.ClaimActions.DeleteClaim("idp"); 
                 options.ClaimActions.DeleteClaim("s_hash"); 

@@ -12,7 +12,7 @@ namespace Marvin.IDP
     {
         public static IEnumerable<IdentityResource> Ids =>
             new IdentityResource[]
-            { 
+            {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
@@ -23,35 +23,41 @@ namespace Marvin.IDP
             };
 
         public static IEnumerable<ApiResource> Apis =>
-            new ApiResource[] 
-            { };
-        
+            new ApiResource[]
+            { 
+                new ApiResource("imagegalleryapi", "Image Gallery API")
+            };
+
         public static IEnumerable<Client> Clients =>
-            new Client[] 
-            { new Client {
-                ClientName = "Image Gallery",  //This will appear in the consent screen and log in
-                ClientId = "imagegalleryclient",
-                AllowedGrantTypes = GrantTypes.Code,  //Working with the Code Flow
-                RequirePkce = true, //To avoid code substitution attacks
-                RedirectUris = new List<string>()
+            new Client[]
+            {
+                new Client
                 {
-                    "https://localhost:44389/signin-oidc"  //The code is delivered to a browser by URI redirection
-                },
-                PostLogoutRedirectUris = new List<string>()
-                {
-                    "https://localhost:44389/signout-callback-oidc"
-                },
-                AllowedScopes =
-                {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile,
-                    IdentityServerConstants.StandardScopes.Address,
-                    "roles"
-                },
-                ClientSecrets =
-                {
-                    new Secret("secret".Sha256()) //To allow the client application to call the token endpoint
+                    ClientName = "Image Gallery",  //This will appear in the consent screen and log in
+                    ClientId = "imagegalleryclient",
+                    AllowedGrantTypes = GrantTypes.Code,  //Working with the Code Flow
+                    RequirePkce = true, //To avoid code substitution attacks
+                    RedirectUris = new List<string>()
+                    {
+                        "https://localhost:44389/signin-oidc"  //The code is delivered to a browser by URI redirection
+                    },
+                    PostLogoutRedirectUris = new List<string>()
+                    {
+                        "https://localhost:44389/signout-callback-oidc"
+                    },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Address,
+                        "roles",
+                        "imagegalleryapi" // clients can request the API
+                    },
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256()) //To allow the client application to call the token endpoint
+                    }
                 }
-            } };        
+            };
     }
 }
