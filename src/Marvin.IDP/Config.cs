@@ -44,6 +44,14 @@ namespace Marvin.IDP
             {
                 new Client
                 {
+                    AccessTokenLifetime = 120,  //2 minutes. There's a 5 minutes off set time because of out of sync
+                    AllowOfflineAccess = true, // the scope offline_access will be supported by our client, for refreshing token
+                    
+                    //For this demo, we let the Absolute Expiration, that is 30 days
+                    //RefreshTokenExpiration = TokenExpiration.Sliding, //this way, the lifetime will be renewed when a new refresh token is requested
+                    //SlidingRefreshTokenLifetime = 10, // we can set the sliding time in seconds, where the default is 15 days
+
+                    UpdateAccessTokenClaimsOnRefresh = true, //if something in the user consent is updated, then it will refresh in the token as well                    
                     ClientName = "Image Gallery",  //This will appear in the consent screen and log in
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Code,  //Working with the Code Flow

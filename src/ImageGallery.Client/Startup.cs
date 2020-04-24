@@ -82,6 +82,7 @@ namespace ImageGallery.Client
                 options.Scope.Add("imagegalleryapi"); // ask for an access token with this scope included
                 options.Scope.Add("subscriptionlevel"); //will be returned from the UserInfo Endpoint
                 options.Scope.Add("country"); //will be returned from the UserInfo Endpoint
+                options.Scope.Add("offline_access"); //for refreshing token
                 options.ClaimActions.DeleteClaim("sid"); //remove the claim from the ClaimsIdentity (in order to reduce the token cookie size) since we do not use it
                 options.ClaimActions.DeleteClaim("idp"); 
                 options.ClaimActions.DeleteClaim("s_hash"); 
