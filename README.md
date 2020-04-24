@@ -28,3 +28,10 @@ We have few options for the signing material:
 * PowerShell command to create the self-signed certificate: Run as administrator and type: New-SelfSignedCertificate -Subject "CN=MarvinIdSrvSigningCert" -CertStoreLocation "cert:\\LocalMachine\My"
 * After that, go to the "Manage computer certificates", then select Personal and you'll see the MarvinIdSrvSigningCert. Open it, go to the details tab and search for Thumbprint. Copy that value and change in the Startup.cs in the Identity Server project.
 * Since this is a self-signed certificate, we need to add it to the Trusted Root Certification Authority Certificates folder (right bellow the personal folder) in order to be seen as valid. In Real Life, we typically have an in-company trusted CA, or certificates like this are bought from trusted root CAs. 
+
+### Preparing for Production (Persisting Configuration data)
+
+* The nuget packages needed for this are : identityserver4.entityframework, microsoft.entityframeworkcore.design (to run the migrations) and microsoft.entityframeworkcore.sqlserver (since our data will be in a SQL Server database).
+* The connection string should be in a safe place for production, such as an encrypted settings file, and environment variable or a key vault. For this demo, it's hard coded in the Startup class in the IDP project.
+* The IDP project uses migrations, so the database can be nicely created and the DbContext exists in the identityserver4.entityframework assembly.
+* There's method to initialize the database in the Startup.cs of the IDP project, this is for demo purposes to initialize that database with data.
