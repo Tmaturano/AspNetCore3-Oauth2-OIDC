@@ -37,6 +37,9 @@ namespace Marvin.IDP
                     "imagegalleryapi",
                     "Image Gallery API",
                     new List<string>() { "role" }) //list of claims that have to be returned when requesting this scope
+                {
+                    ApiSecrets = { new Secret("apisecret".Sha256()) } // need to define a secret when using Reference Token
+                } 
             };
 
         public static IEnumerable<Client> Clients =>
@@ -44,6 +47,7 @@ namespace Marvin.IDP
             {
                 new Client
                 {
+                    AccessTokenType = AccessTokenType.Reference, //Reference instead of a self contained (jwt)
                     AccessTokenLifetime = 120,  //2 minutes. There's a 5 minutes off set time because of out of sync
                     AllowOfflineAccess = true, // the scope offline_access will be supported by our client, for refreshing token
                     

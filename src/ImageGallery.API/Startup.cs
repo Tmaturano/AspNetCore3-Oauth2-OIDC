@@ -51,6 +51,7 @@ namespace ImageGallery.API
                 {
                     options.Authority = "https://localhost:44318"; // IDP endpoint
                     options.ApiName = "imagegalleryapi"; // This ensure that imagegalleryapi is checked as an audience value in the token
+                    options.ApiSecret = "apisecret"; //same secret at the IDP level in order to work with Reference Token
                 });
 
             // register the DbContext on the container, getting the connection string from
