@@ -54,6 +54,13 @@ namespace Marvin.IDP
                     builder.UseSqlServer(marvingIDPDataDBConnectionString, 
                     options => options.MigrationsAssembly(migrationsAssembly)); // it says that the migrations can be found in Marvin.IDP assembly
             });
+
+            builder.AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = builder =>
+                    builder.UseSqlServer(marvingIDPDataDBConnectionString,
+                    options => options.MigrationsAssembly(migrationsAssembly)); // it says that the migrations can be found in Marvin.IDP assembly
+            });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -102,8 +109,10 @@ namespace Marvin.IDP
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                serviceScope.ServiceProvider
+                    .GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
                 if (!context.Clients.Any())
                 {
