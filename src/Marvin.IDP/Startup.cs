@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Marvin.IDP
 {
@@ -30,7 +32,8 @@ namespace Marvin.IDP
                 .AddTestUsers(TestUsers.Users);
 
             // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            //builder.AddDeveloperSigningCredential();
+            builder.AddSigningCredential(LoadCertificateFromStore());
         }
 
         public void Configure(IApplicationBuilder app)
@@ -52,6 +55,23 @@ namespace Marvin.IDP
             {
                 endpoints.MapDefaultControllerRoute();
             });
+        }
+
+        public X509Certificate2 LoadCertificateFromStore()
+        {
+            var thumbPrint = "10a9ccdc09dc09eac61ce976068589dfc07608b5";//"pastinthumbprint"
+
+            using (var store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+            {
+                store.Open(OpenFlags.ReadOnly);                
+                var certCollection = store.Certificates.Find(X509FindType.FindByThumbprint, thumbPrint, true);
+                if (certCollection.Count == 0)
+                {
+                    throw new Exception("The specified certificate wasn't found.");
+                }
+
+                return certCollection[0];
+            }
         }
     }
 }
