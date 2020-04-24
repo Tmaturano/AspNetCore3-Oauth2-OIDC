@@ -13,3 +13,18 @@ The client is a simple MVC project that communicates with a .Net Core API projec
 * The validation of the identity token at level of the client.
 * The validation of the access token at level of the API.
 * The tokens have a limited lifetime and it uses refresh tokens to get a new access token when expired.
+
+
+## Preparing for Production
+We have few options for the signing material:
+
+* Raw RSA (SHA256) keys, which can store somewhere safe or even hard code.
+* Signing certificate, wich has the added value of having a set expiration date. You're forced to replace it from time to time. That certificate can be deployed together with the identity server, or it can be stored in a safer location and read from it, like the Window Certificate Store or Key Vault on Azure.
+* For this demo, it's stored in the certificate store.
+
+### Preparing for Production (creating a signing certificate)
+
+* Created a self-signed certificate, or you can buy one from a certificate authority.
+* PowerShell command to create the self-signed certificate: Run as administrator and type: New-SelfSignedCertificate -Subject "CN=MarvinIdSrvSigningCert" -CertStoreLocation "cert:\\LocalMachine\My"
+* After that, go to the "Manage computer certificates", then select Personal and you'll see the MarvinIdSrvSigningCert. Open it, go to the details tab and search for Thumbprint. Copy that value.
+* Since this is a self-signed certificate, we need to add it to the Trusted Root Certification Authority Certificates folder (right bellow the personal folder) in order to be seen as valid. In Real Life, we typically have an in-company trusted CA, or certificates like this are bought from trusted root CAs. 
